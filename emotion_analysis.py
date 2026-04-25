@@ -19,7 +19,6 @@ from models.gemini_insight import get_gemini_insight
 
 @st.cache_resource
 def load_text_model():
-    #from tensorflow.keras.models import load_model
     model      = None
     vectorizer = None
     le         = None
