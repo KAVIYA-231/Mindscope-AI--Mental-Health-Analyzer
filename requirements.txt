@@ -1,0 +1,11 @@
+streamlit
+tensorflow
+scikit-learn
+opencv-python-headless
+numpy
+pandas
+plotly
+google-generativeai
+python-dotenv
+flask
+Pillow
