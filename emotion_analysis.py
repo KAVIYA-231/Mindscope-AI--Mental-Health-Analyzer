@@ -20,9 +20,9 @@ from models.gemini_insight import get_gemini_insight
 @st.cache_resource
 def load_text_model():
     #from tensorflow.keras.models import load_model
-    model      = load_model("models/text_mental_model.keras")
-    vectorizer = pickle.load(open("models/vectorizer.pkl", "rb"))
-    le         = pickle.load(open("models/label_encoder.pkl", "rb"))
+    model      = None
+    vectorizer = None
+    le         = None
     return model, vectorizer, le
 
 
@@ -177,14 +177,31 @@ def emotion_analysis_page():
         if not user_text.strip():
             st.warning("Please enter some text before analysing.")
             return
+        def simple_emotion(text):
+            text = text.lower()
+    
+            if "happy" in text or "good" in text:
+                return "Positive", 0.8
+            elif "sad" in text or "bad" in text:
+                return "Depression", 0.8
+            elif "angry" in text:
+                return "Stress", 0.8
+            else:
+                return "Neutral", 0.6
 
+
+            text_state, text_conf = simple_emotion(user_text)
+
+            text_probs = {
+            text_state: text_conf
+            }
         # Text prediction
-        vec        = vectorizer.transform([user_text]).toarray()
-        preds      = model.predict(vec)[0]
-        idx        = int(np.argmax(preds))
-        text_state = le.inverse_transform([idx])[0]
-        text_conf  = float(preds[idx])
-        text_probs = {le.inverse_transform([i])[0]: float(preds[i]) for i in range(len(preds))}
+        #vec        = vectorizer.transform([user_text]).toarray()
+        #preds      = model.predict(vec)[0]
+        #idx        = int(np.argmax(preds))
+        #text_state = le.inverse_transform([idx])[0]
+        #text_conf  = float(preds[idx])
+        #text_probs = {le.inverse_transform([i])[0]: float(preds[i]) for i in range(len(preds))}
 
         # Fusion
         face_mental       = st.session_state.face_mental
