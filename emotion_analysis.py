@@ -19,7 +19,7 @@ from models.gemini_insight import get_gemini_insight
 
 @st.cache_resource
 def load_text_model():
-    from tensorflow.keras.models import load_model
+    #from tensorflow.keras.models import load_model
     model      = load_model("models/text_mental_model.keras")
     vectorizer = pickle.load(open("models/vectorizer.pkl", "rb"))
     le         = pickle.load(open("models/label_encoder.pkl", "rb"))
